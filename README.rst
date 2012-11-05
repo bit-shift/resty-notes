@@ -18,3 +18,18 @@ Loose plan is as follows:
     crash or forgetting to save. (**NOT DONE**)
   - Has a minimal GUI for above features, so as to be able to be bound
     to a hotkey for quick access (**NOT DONE**)
+
+Dependencies
+------------
+PySide
+  **OPTIONAL**, needed for GUI. Can be obtained via::
+
+      pip install pyside
+
+  or::
+
+      easy_install pyside
+
+  on most platforms, or check your package manager for a cleaner install
+  if you're on a platform where such a tool exists.
+
