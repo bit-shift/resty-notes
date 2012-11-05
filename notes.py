@@ -1,5 +1,10 @@
 #!/usr/bin/env python
 import minirst
+try:
+    import PySide
+    have_gui = True
+except:
+    have_gui = False
 
 def find_fuzzy_matches(fragment, strings, case_sensitive=False):
     """find_fuzzy_matches(fragment, [string], case_sensitive=False) -> [string]
@@ -24,3 +29,5 @@ and vice versa."""
 notes_dict = minirst.to_dict(open("/home/bitshift/.notes", "rU").read())
 print(notes_dict)
 print(find_fuzzy_matches("to a", notes_dict.keys()))
+if have_gui:
+    print("We have GUI support! ...shame I didn't code one yet.")
