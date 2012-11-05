@@ -22,4 +22,5 @@ and vice versa."""
     return matches
 
 notes_dict = minirst.to_dict(open("/home/bitshift/.notes", "r").read())
+print(notes_dict)
 print(find_fuzzy_matches("to a", notes_dict.keys()))
