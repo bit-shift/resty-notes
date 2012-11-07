@@ -6,6 +6,17 @@ try:
 except:
     have_gui = False
 
+def prettyprint_dict(d, indent_width=4):
+    out_str = "{\n"
+    for key in d:
+        if isinstance(d[key], dict):
+            out_str += "'{0}': '{1}'\n".format(key, prettyprint_dict(d[key]))
+        else:
+            out_str += "'{0}': '{1}'\n".format(key, d[key])
+    out_str += "}\n"
+    return out_str
+
+
 def find_fuzzy_matches(fragment, strings, case_sensitive=False):
     """find_fuzzy_matches(fragment, [string], case_sensitive=False) -> [string]
 
@@ -27,7 +38,7 @@ and vice versa."""
     return matches
 
 notes_dict = minirst.to_dict(open("/home/bitshift/.notes", "rU").read())
-print(notes_dict)
+print(prettyprint_dict(notes_dict))
 print(find_fuzzy_matches("to a", notes_dict.keys()))
 if have_gui:
     print("We have GUI support! ...shame I didn't code one yet.")
