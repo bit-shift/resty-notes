@@ -10,9 +10,13 @@ def prettyprint_dict(d, indent_width=4):
     out_str = "{\n"
     for key in d:
         if isinstance(d[key], dict):
-            out_str += "'{0}': '{1}'\n".format(key, prettyprint_dict(d[key]))
+            out_line = "'{0}': {1}\n".format(key, prettyprint_dict(d[key], indent_width))
+        elif isinstance(d[key], str):
+            out_line = "'{0}': '{1}'\n".format(key, d[key])
         else:
-            out_str += "'{0}': '{1}'\n".format(key, d[key])
+            out_line = "'{0}': {1}\n".format(key, d[key])
+        out_line = "\n".join([(" "*indent_width + line) for line in out_line.split("\n")]) + "\n"
+        out_str += out_line
     out_str += "}\n"
     return out_str
 
