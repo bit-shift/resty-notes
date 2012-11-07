@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 import minirst
 try:
-    import PySide
+    from gi.repository import Gtk
     have_gui = True
 except:
     have_gui = False
