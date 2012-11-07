@@ -6,20 +6,28 @@ try:
 except:
     have_gui = False
 
-def prettyprint_dict(d, indent_width=4):
-    out_str = "{\n"
-    for key in d:
-        if isinstance(d[key], dict):
-            out_line = "'{0}': {1}\n".format(key, prettyprint_dict(d[key], indent_width))
-        elif isinstance(d[key], str):
-            out_line = "'{0}': '{1}'\n".format(key, d[key])
-        else:
-            out_line = "'{0}': {1}\n".format(key, d[key])
-        out_line = "\n".join([(" "*indent_width + line) for line in out_line.split("\n")]) + "\n"
-        out_str += out_line
-    out_str += "}\n"
-    return out_str
+def fancy_str(obj, dict_indent_width=4):
+    """fancy_str(obj, dict_indent_width=4) -> string
 
+Turns an object, obj, into a pretty-printed string, with each level of
+nested dicts being indented dict_indent_width characters further in."""
+    if isinstance(obj, dict):
+        if len(obj.keys()) == 0:
+            out_str = "{}"
+        else:
+            out_str = "{\n"
+            for key in obj:
+                if out_str != "{\n":
+                    out_str = out_str[:-1] + ",\n"
+                out_str += "\n".join([(" "*dict_indent_width + line) for line in "{0}: {1}".format(fancy_str(key, dict_indent_width), fancy_str(obj[key], dict_indent_width)).split("\n")]) + "\n"
+            out_str += "}"
+    elif isinstance(obj, str):
+        out_str = "'{0}'".format(obj)
+    elif isinstance(obj, list):
+        out_str = "[{0}]".format(", ".join([fancy_str(elem, dict_indent_width) for elem in obj]))
+    else:
+        out_str = "{0}".format(obj)
+    return out_str
 
 def find_fuzzy_matches(fragment, strings, case_sensitive=False):
     """find_fuzzy_matches(fragment, [string], case_sensitive=False) -> [string]
@@ -42,7 +50,7 @@ and vice versa."""
     return matches
 
 notes_dict = minirst.to_dict(open("/home/bitshift/.notes", "rU").read())
-print(prettyprint_dict(notes_dict))
+print(fancy_str(notes_dict))
 print(find_fuzzy_matches("to a", notes_dict.keys()))
 if have_gui:
     print("We have GUI support! ...shame I didn't code one yet.")
