@@ -3,9 +3,9 @@ import minirst
 try:
     #from gi.repository import Gtk
     raise ImportError()
-    import gui.gtk as gui
+    from gui import gtk as gui
 except:
-    import gui.console as gui
+    from gui import console as gui
 
 if __name__ == "__main__":
     state = ("init", )
