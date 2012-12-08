@@ -1,10 +1,12 @@
 #!/usr/bin/env python
 import minirst
+import testingui as gui
 try:
-    from gi.repository import Gtk
-    have_gui = True
+    #from gi.repository import Gtk
+    raise ImportError()
+    import gui.gtk as gui
 except:
-    have_gui = False
+    import gui.console as gui
 
 def fancy_str(obj, dict_indent_width=4):
     """fancy_str(obj, dict_indent_width=4) -> string
@@ -49,8 +51,20 @@ and vice versa."""
                 break
     return matches
 
-notes_dict = minirst.to_dict(open("/home/bitshift/.notes", "rU").read())
-print(fancy_str(notes_dict))
-print(find_fuzzy_matches("to a", notes_dict.keys()))
-if have_gui:
-    print("We have GUI support! ...shame I didn't code one yet.")
+def main():
+    state = ("init", )
+    while state[0] != "quit":
+        notes_dict = minirst.to_dict(open("/home/bitshift/.notes", "rU").read())
+
+        if state[0] == "init":
+            state = ("note_list", notes_dict)
+        if state[0] == "note_list":  # ("note_list", notes_dict)
+            state = gui.note_list(state[1])
+        elif state[0] == "note_edit":  # ("note_edit", notes_dict, note_title)
+            state = gui.note_edit(*state[1:])
+
+        if state[1] != notes_dict:
+            notes_dict = state[1]
+            open("/home/bitshift/.notes2", "wU").write(minirst.from_dict(notes_dict))
+
+main()
