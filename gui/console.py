@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+import helpers
 
 def note_list(notes_dict):
     print("CONSOLE: " + ", ".join(notes_dict.keys()))
