@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+import helpers
 
 def from_dict(d):
     """from_dict(d) -> string
@@ -15,7 +16,7 @@ def to_dict(r):
 Parse a minimal reST-like document, r, into a dict of title:block."""
     blocks = []
     in_lines = r.split("\n")
-    for n in xrange(len(in_lines)):
+    for n in helpers.versionless_xrange(len(in_lines)):
         if n < (len(in_lines) - 1) and len(in_lines[n]) == len(in_lines[n+1]) and len(in_lines[n]) == in_lines[n+1].count("="):
             blocks.append([in_lines[n], ""])
         elif n < len(in_lines) and len(in_lines[n-1]) == len(in_lines[n]) and len(in_lines[n-1]) == in_lines[n].count("="):

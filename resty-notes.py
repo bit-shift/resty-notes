@@ -21,4 +21,4 @@ if __name__ == "__main__":
 
         if state[1] != notes_dict:
             notes_dict = state[1]
-            open("/home/bitshift/.notes2", "wU").write(minirst.from_dict(notes_dict))
+            open("/home/bitshift/.notes", "w").write(minirst.from_dict(notes_dict))

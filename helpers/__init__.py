@@ -1,5 +1,19 @@
 #!/usr/bin/env python
 
+def versionless_xrange(*largs, **kwargs):
+    """Calls the generator-based range method regardless of Python version."""
+    try:
+        return xrange(*largs, **kwargs)
+    except NameError:
+        return range(*largs, **kwargs)
+
+def versionless_raw_input(*largs, **kwargs):
+    """Calls the raw input method regardless of Python version."""
+    try:
+        return raw_input(*largs, **kwargs)
+    except NameError:
+        return input(*largs, **kwargs)
+
 def fancy_str(obj, dict_indent_width=4):
     """fancy_str(obj, dict_indent_width=4) -> string
 
@@ -31,7 +45,7 @@ fragment has all its characters appear in order. If case_sensitive is
 False (default), uppercase characters will match lowercase versions,
 and vice versa."""
     if len(fragment) == 0:
-        return []
+        return strings 
     matches = []
     for string in strings:
         fragment_index = 0
