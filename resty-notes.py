@@ -1,8 +1,7 @@
 #!/usr/bin/env python
 import minirst
 try:
-    #from gi.repository import Gtk
-    raise ImportError()
+    from gi.repository import Gtk
     from gui import gtk as gui
 except:
     from gui import console as gui
