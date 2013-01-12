@@ -1,9 +1,12 @@
 #!/usr/bin/env python
-import minirst
+import minirst, sys
 try:
     from gi.repository import Gtk
-    from gui import gtk as gui
-except:
+    if len(sys.argv) == 1 or sys.argv[1] != "console":
+        from gui import gtk as gui
+    else:
+        raise ImportError()
+except ImportError:
     from gui import console as gui
 
 if __name__ == "__main__":
