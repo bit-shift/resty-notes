@@ -3,6 +3,8 @@ from gi.repository import Gtk
 import helpers
 
 def note_list(notes_dict):
+    note_list.result = ("quit", notes_dict)
+
     note_list_window = Gtk.Window(title="Resty Notes")
     note_list_window.connect("delete-event", Gtk.main_quit)
 
@@ -34,10 +36,26 @@ def note_list(notes_dict):
 
     note_search_entry.connect("changed", (lambda w: note_list_filter.refilter()))
 
+    def select_note_by_entry(entry):
+        matches = helpers.find_fuzzy_matches(entry.get_text(), notes_dict)
+        if len(matches) == 1:
+            note_list.result = ("note_edit", notes_dict, matches[0])
+            Gtk.main_quit()
+        elif len(matches) == 0:
+            note_list.result = ("note_edit", notes_dict, entry.get_text())
+            Gtk.main_quit()
+
+    def select_note_by_list(treeview, row_path, view_column):
+        note_list.result = ("note_edit", notes_dict, note_list_filter.get_value(note_list_filter.get_iter_from_string(str(row_path)), 0))
+        Gtk.main_quit()
+
+    note_search_entry.connect("activate", select_note_by_entry)
+    note_list_view.connect("row-activated", select_note_by_list)
+
     note_list_window.show_all()
     Gtk.main()
 
-    return ("note_edit", notes_dict, list(notes_dict.keys())[0])
+    return note_list.result
 
 def note_edit(notes_dict, note_title):
     print("GTK: " + "You wanted to edit \"" + note_title + "\"")
