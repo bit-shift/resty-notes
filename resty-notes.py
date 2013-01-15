@@ -1,15 +1,20 @@
 #!/usr/bin/env python
 import minirst, sys
+gui_modules = {}
 try:
     from gi.repository import Gtk
-    if len(sys.argv) == 1 or sys.argv[1] != "console":
-        from gui import gtk as gui
-    else:
-        raise ImportError()
+    from gui import gtk as gui_gtk
+    gui_modules["gtk"] = gui_gtk
 except ImportError:
-    from gui import console as gui
+    from gui import console as gui_console
+    gui_modules["console"] = gui_console
 
 if __name__ == "__main__":
+    if "gtk" in gui_modules: # TODO: Don't hardcode this, use a parameter which defaults to gtk only if we have it
+        active_gui = "gtk"
+    else:
+        active_gui = "console"
+
     state = ("init", )
     while state[0] != "quit":
         notes_dict = minirst.to_dict(open("/home/bitshift/.notes", "rU").read())
