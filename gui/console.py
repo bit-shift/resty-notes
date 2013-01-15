@@ -2,6 +2,8 @@
 from __future__ import print_function
 import helpers, os, subprocess, tempfile
 
+# TODO: Rework note_list to provide a way to create new notes.
+
 def note_list(notes_dict):
     query = ""
     while True:

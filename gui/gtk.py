@@ -58,6 +58,7 @@ def note_list(notes_dict):
     return note_list.result
 
 def note_edit(notes_dict, note_title):
+    # TODO: Actual GUI function for this handler.
     print("GTK: " + "You wanted to edit \"" + note_title + "\"")
 
     return ("quit", notes_dict)

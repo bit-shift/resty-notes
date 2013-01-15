@@ -21,10 +21,13 @@ if __name__ == "__main__":
 
         if state[0] == "init":
             state = ("note_list", notes_dict)
-        if state[0] == "note_list":  # ("note_list", notes_dict)
-            state = gui.note_list(state[1])
-        elif state[0] == "note_edit":  # ("note_edit", notes_dict, note_title)
-            state = gui.note_edit(*state[1:])
+
+        if hasattr(gui_modules[active_gui], state[0]):
+            handler_func = getattr(gui_modules[active_gui], state[0])
+            state = handler_func(*state[1:])
+        else:
+            sys.stderr.write("FATAL: Unhandled state {0}".format(state))
+            sys.exit(1)
 
         if state[1] != notes_dict:
             notes_dict = state[1]
