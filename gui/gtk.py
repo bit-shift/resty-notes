@@ -10,13 +10,13 @@ def note_list(notes_dict):
 
     note_list_layout = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
     note_list_window.add(note_list_layout)
-    
+
     note_search_area = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
     note_search_entry = Gtk.Entry()
     note_search_area.pack_start(note_search_entry, expand=True, fill=True, padding=3)
     note_list_layout.pack_start(note_search_area, expand=False, fill=False, padding=3)
 
-    note_iters = {} 
+    note_iters = {}
     note_list_store = Gtk.ListStore(str)
     for note_title in notes_dict:
         note_iters[note_title] = note_list_store.append([note_title])
